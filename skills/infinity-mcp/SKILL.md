@@ -25,7 +25,7 @@ Other documented areas exist but are outside the core board/folder/item workflow
 
 ## Local Server
 
-This machine has a long-running Docker MCP server:
+Use the Infinity MCP endpoint configured for the current machine. If using the companion MCP server's example Docker setup, the default local endpoint is:
 
 ```txt
 http://127.0.0.1:3015/mcp
@@ -38,6 +38,8 @@ http://127.0.0.1:3015/health
 ```
 
 If the user asks to use Infinity data, prefer this HTTP MCP endpoint instead of calling the Infinity API directly. It already handles auth, API version headers, pagination shape, and Infinity value payload conversion.
+
+If this endpoint is different on the current machine, use the local agent/client config instead of assuming a hard-coded path or personal directory.
 
 ## Discovery Order
 

@@ -25,25 +25,29 @@ This skill routes agents directly to the right Infinity MCP tools for:
 
 It also records known API limitations, such as the fact that the Morava API docs expose board list/get/create but not board update/delete.
 
-## Install For Codex
+## Install For An Agent Runtime
 
-Copy the skill folder into your Codex skills directory:
+Copy the skill folder into the skills directory used by your agent runtime.
 
 ```powershell
-Copy-Item -Recurse .\skills\infinity-mcp "$env:USERPROFILE\.codex\skills\infinity-mcp" -Force
+Copy-Item -Recurse .\skills\infinity-mcp "path\to\your\agent\skills\infinity-mcp" -Force
 ```
 
-Then start a new Codex session or reload skills. Use the skill when asking agents to work with Infinity data.
+Then start a new agent session or reload skills. Use the skill when asking agents to work with Infinity data.
 
 ## Required MCP Server
 
-The skill assumes an Infinity MCP server is available. On Martin's local Docker setup, it runs at:
+The skill assumes an Infinity MCP server is available. Configure the MCP endpoint for your own machine or deployment.
+
+If you use the companion MCP server's example Docker setup, the default local endpoint is:
 
 ```txt
 http://127.0.0.1:3015/mcp
 ```
 
-For other machines, update the skill's `Local Server` section to match the MCP endpoint.
+For other machines, update your agent config or the skill's `Local Server` section to match your MCP endpoint.
+
+See `config/infinity-mcp.config.example.json` for a neutral configuration template.
 
 ## Safety Notes
 

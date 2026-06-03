@@ -1,0 +1,9 @@
+{
+  "mcpEndpoint": "http://127.0.0.1:3015/mcp",
+  "healthEndpoint": "http://127.0.0.1:3015/health",
+  "notes": [
+    "Copy this file to a local, ignored config location for your agent runtime.",
+    "Adjust endpoints for your own Docker, local, or remote MCP deployment.",
+    "Do not put Infinity API tokens in this skills repository."
+  ]
+}
