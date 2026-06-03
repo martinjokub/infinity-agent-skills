@@ -2,6 +2,8 @@
 
 Reusable agent skills for working with StartInfinity through the Infinity MCP server.
 
+Current version: `0.1.1`
+
 Companion MCP server repository:
 
 ```txt
@@ -48,6 +50,12 @@ http://127.0.0.1:3015/mcp
 For other machines, update your agent config or the skill's `Local Server` section to match your MCP endpoint.
 
 See `config/infinity-mcp.config.example.json` for a neutral configuration template.
+
+## Versioning
+
+This project uses semver-compatible versions in the form `x.x.y`. Treat the final number as the change counter requested for the project: increment it by `+1` for each update or edit unless a higher-level version bump is explicitly requested.
+
+The current version is stored in `VERSION` and summarized in `CHANGELOG.md`.
 
 ## Safety Notes
 

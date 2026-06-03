@@ -1,9 +1,14 @@
 {
+  "version": "0.1.1",
   "mcpEndpoint": "http://127.0.0.1:3015/mcp",
   "healthEndpoint": "http://127.0.0.1:3015/health",
+  "auth": {
+    "type": "optional-bearer",
+    "tokenEnv": "MCP_AUTH_TOKEN"
+  },
   "notes": [
     "Copy this file to a local, ignored config location for your agent runtime.",
     "Adjust endpoints for your own Docker, local, or remote MCP deployment.",
-    "Do not put Infinity API tokens in this skills repository."
+    "Do not put Infinity API tokens or local MCP auth tokens in this skills repository."
   ]
 }
