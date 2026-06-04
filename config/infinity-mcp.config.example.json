@@ -1,14 +1,20 @@
 {
-  "version": "0.1.1",
+  "version": "0.1.2",
   "mcpEndpoint": "http://127.0.0.1:3015/mcp",
   "healthEndpoint": "http://127.0.0.1:3015/health",
   "auth": {
-    "type": "optional-bearer",
-    "tokenEnv": "MCP_AUTH_TOKEN"
+    "type": "required-bearer",
+    "tokenEnv": "INFINITY_MCP_API_KEY",
+    "authorizationHeader": "Authorization: Bearer ${INFINITY_MCP_API_KEY}"
+  },
+  "scopes": {
+    "read": "profile, list, and get tools",
+    "write": "create and update tools",
+    "admin": "archive/delete and workspace member management tools"
   },
   "notes": [
     "Copy this file to a local, ignored config location for your agent runtime.",
     "Adjust endpoints for your own Docker, local, or remote MCP deployment.",
-    "Do not put Infinity API tokens or local MCP auth tokens in this skills repository."
+    "Do not put Infinity API tokens or plaintext MCP API keys in this skills repository."
   ]
 }

@@ -37,9 +37,29 @@ Health endpoint:
 http://127.0.0.1:3015/health
 ```
 
-If the user asks to use Infinity data, prefer this HTTP MCP endpoint instead of calling the Infinity API directly. It already handles auth, API version headers, pagination shape, and Infinity value payload conversion.
+HTTP MCP requests require:
+
+```txt
+Authorization: Bearer <mcp-api-key>
+```
+
+The MCP API key is not an Infinity token. It authorizes the MCP client to use one server-side encrypted Infinity credential profile. On this local machine, the generated key may be stored in the local ignored file `D:\AI\infinity\mcp\config\local-client-key.txt`; otherwise use the agent/client's configured secret source.
+
+If the user asks to use Infinity data, prefer this HTTP MCP endpoint instead of calling the Infinity API directly. It already handles MCP auth, Infinity credentials, API version headers, pagination shape, and Infinity value payload conversion.
 
 If this endpoint is different on the current machine, use the local agent/client config instead of assuming a hard-coded path or personal directory.
+
+## Auth And Scopes
+
+Do not ask the user for an Infinity token during normal tool use. The MCP server resolves the caller's MCP API key to an encrypted Infinity credential profile.
+
+Tool access is scope-gated:
+
+- `infinity:read`: profile, list, and get tools.
+- `infinity:write`: create and update tools.
+- `infinity:admin`: archive/delete and workspace member management tools.
+
+If a tool returns a missing-scope error, explain which MCP scope is needed. Do not retry the same write/destructive tool with guessed credentials.
 
 ## Discovery Order
 
@@ -184,7 +204,7 @@ Use `infinity_list_attributes` before item writes to map human field names to at
 
 ### Show Workspace > Board > Folder Tree
 
-Use the Docker MCP endpoint with a Streamable HTTP client. Collect pages with `structuredContent`, then:
+Use the Docker MCP endpoint with a Streamable HTTP client and the configured MCP API key. Collect pages with `structuredContent`, then:
 
 1. Print each workspace name.
 2. Under it, print each board name.

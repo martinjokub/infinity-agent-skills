@@ -2,7 +2,7 @@
 
 Reusable agent skills for working with StartInfinity through the Infinity MCP server.
 
-Current version: `0.1.1`
+Current version: `0.1.2`
 
 Companion MCP server repository:
 
@@ -46,6 +46,14 @@ If you use the companion MCP server's example Docker setup, the default local en
 ```txt
 http://127.0.0.1:3015/mcp
 ```
+
+HTTP MCP clients must send:
+
+```txt
+Authorization: Bearer <mcp-api-key>
+```
+
+The MCP API key is separate from the Infinity token. The server maps it to an encrypted Infinity credential profile.
 
 For other machines, update your agent config or the skill's `Local Server` section to match your MCP endpoint.
 
