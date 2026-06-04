@@ -7,6 +7,63 @@ description: Use when an agent needs to work with StartInfinity through the Infi
 
 Use the Infinity MCP server when the user asks to inspect, create, update, or archive StartInfinity workspaces, boards, folders, items, or subitems.
 
+## Agent-Led Cloud Docker Install
+
+Use this workflow when the user asks an agent to install or configure Infinity MCP on a cloud Docker server.
+
+First get or use this skill repository:
+
+```txt
+https://github.com/martinjokub/infinity-agent-skills.git
+```
+
+Then install the MCP server from:
+
+```txt
+https://github.com/martinjokub/infinity-mcp-server.git
+```
+
+Ask the user for these values if they are not already provided:
+
+- SSH target for the cloud server, for example `root@example.com`.
+- Install folder on the server. The user controls this path; do not invent one silently.
+- Infinity developer token from `https://app.startinfinity.com/profile/developer/tokens`.
+- MCP user name, default `codex`.
+- Access level: `read-only`, `read-write`, or `admin`.
+- MCP URL the client should use, preferably an HTTPS reverse-proxy URL.
+
+Run setup commands on the cloud server, outside Docker, in the chosen install folder. Do not ask the user to enter the Docker container for setup.
+
+Create or update:
+
+```txt
+docker-compose.yml
+.env
+config/mcp-users.json
+data/credentials.enc.json
+config/<mcp-user>-mcp-key.txt
+```
+
+Store the Infinity token only in the encrypted credential store. Do not expose it in Docker environment variables. The MCP API key is what Codex or another MCP client uses to call `/mcp`.
+
+After setup, test:
+
+1. `/health` works.
+2. `/mcp` fails without `Authorization`.
+3. `/mcp` works with `Authorization: Bearer <generated MCP API key>`.
+4. `infinity_get_profile` works.
+
+Then configure the MCP client:
+
+```txt
+name: infinity
+transport: streamable HTTP
+url: <MCP URL>
+authorization header: Bearer <generated MCP API key>
+```
+
+Report back the install folder, repo commit used, Docker Compose service, created files, MCP URL, key file path, test proof, and MCP client config location.
+
 ## Endpoint Coverage Truth
 
 Do not spend time looking for unsupported board/workspace CRUD unless the user explicitly asks for a fresh API audit.

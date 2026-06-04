@@ -2,7 +2,7 @@
 
 Reusable agent skills for working with StartInfinity through the Infinity MCP server.
 
-Current version: `0.1.2`
+Current version: `0.1.3`
 
 Companion MCP server repository:
 
@@ -40,6 +40,16 @@ Then start a new agent session or reload skills. Use the skill when asking agent
 ## Required MCP Server
 
 The skill assumes an Infinity MCP server is available. Configure the MCP endpoint for your own machine or deployment.
+
+For cloud Docker setup, the skill tells agents to:
+
+1. use this skills repo first,
+2. clone `https://github.com/martinjokub/infinity-mcp-server.git`,
+3. install into the folder chosen by the user,
+4. store the Infinity token in the encrypted credential store,
+5. generate an MCP API key,
+6. test the server,
+7. configure Codex or the MCP client with the MCP URL and API key.
 
 If you use the companion MCP server's example Docker setup, the default local endpoint is:
 
