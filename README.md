@@ -2,7 +2,7 @@
 
 Reusable agent skills for working with StartInfinity through the Infinity MCP server.
 
-Current version: `0.1.4`
+Current version: `0.1.5`
 
 Changelog:
 
