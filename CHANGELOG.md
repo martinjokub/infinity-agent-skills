@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.4
+
+- Make the changelog discoverable from the README.
+
 ## 0.1.3
 
 - Add agent-led cloud Docker install workflow to the Infinity MCP skill.
