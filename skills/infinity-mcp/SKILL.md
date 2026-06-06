@@ -7,15 +7,11 @@ description: Use this skill whenever the user asks to read, search, list, create
 
 Use the Infinity MCP server when the user asks to inspect, create, update, or archive StartInfinity workspaces, boards, folders, items, or subitems.
 
-## Production Endpoint
+## MCP Endpoint
 
-Known production MCP endpoint:
+Use the Infinity MCP endpoint configured in the user's MCP client or provided by the user in the current task. Do not hard-code personal, customer, or production MCP URLs into reusable skills or public repositories.
 
-```txt
-https://infinity.aimastersdata.com/mcp
-```
-
-Transport:
+Transport is usually:
 
 ```txt
 streamable HTTP
