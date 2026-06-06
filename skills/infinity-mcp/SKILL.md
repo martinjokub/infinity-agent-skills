@@ -1,11 +1,36 @@
 ---
 name: infinity-mcp
-description: Use when an agent needs to work with StartInfinity through the Infinity MCP server.
+description: Use this skill whenever the user asks to read, search, list, create, update, comment on, or organize StartInfinity / Infinity workspaces, boards, folders, items, subitems, attributes, or comments through the Infinity MCP server. Use it especially for requests involving Infinity item URLs, "add a comment", "change status", board/folder trees, item fields, ChatGPT custom app OAuth, or deciding which Infinity MCP tool is safe to call.
 ---
 
 # Infinity MCP Workflow
 
 Use the Infinity MCP server when the user asks to inspect, create, update, or archive StartInfinity workspaces, boards, folders, items, or subitems.
+
+## Production Endpoint
+
+Known production MCP endpoint:
+
+```txt
+https://infinity.aimastersdata.com/mcp
+```
+
+Transport:
+
+```txt
+streamable HTTP
+```
+
+Use the static Codex/admin MCP API key for full tool access. ChatGPT custom app OAuth may intentionally expose a smaller safe tool set.
+
+## Client Surfaces
+
+There are two intentional tool surfaces:
+
+- Static Codex/admin API key: full read, write, admin, and setup tool set.
+- ChatGPT custom app OAuth: restricted read/navigation tools plus `infinity_add_item_comment`.
+
+If an OAuth client cannot see a write/update tool, that may be deliberate. Do not work around the allowlist by guessing another write path.
 
 ## Agent-Led Cloud Docker Install
 
@@ -80,6 +105,11 @@ Documented Morava coverage:
 
 Other documented areas exist but are outside the core board/folder/item workflow: comments, attachments, views, references, hooks, and time tracking.
 
+Updated practical coverage:
+
+- Comments: list, get, add/create, update, delete.
+- Attachments, views, references, hooks, and time tracking remain outside the current core MCP workflow unless the user asks to add those tools.
+
 ## Local Server
 
 Use the Infinity MCP endpoint configured for the current machine. If using the companion MCP server's example Docker setup, the default local endpoint is:
@@ -130,6 +160,14 @@ For most tasks, use this order:
 
 Do not guess board, folder, item, or attribute IDs if they can be discovered with read-only tools.
 
+For an Infinity item URL like:
+
+```txt
+https://app.startinfinity.com/b/<board-slug>/<folder-id>/<item-id>?...
+```
+
+resolve the workspace ID separately. The first path segment after `/b/` is usually a board ID/slug, not a workspace ID.
+
 ## Tool Router
 
 Route user intent directly:
@@ -148,8 +186,45 @@ Route user intent directly:
 - "Get item detail" -> `infinity_get_item`, use `expand` when values or related objects are needed
 - "Create/update/delete item" -> `infinity_create_item`, `infinity_update_item`, `infinity_archive_item`
 - "Subitems" -> `infinity_list_subitems` or `infinity_create_subitem`; subitems are items whose `parent_id` is set
+- "Add comment/note/progress update/message to item" -> `infinity_add_item_comment`
+- "Show comments" -> `infinity_list_comments`
+- "Get/update/delete comment" -> `infinity_get_comment`, `infinity_update_comment`, or `infinity_delete_comment`
 
 Use read-only tools first when IDs are not known. For write actions, resolve IDs first, then perform one targeted write.
+
+## Comment Workflows
+
+When the user asks to add a comment, note, progress update, activity note, or message to an item, use comment tools, not item update tools.
+
+Preferred tool:
+
+```txt
+infinity_add_item_comment
+```
+
+Use it with:
+
+```json
+{
+  "workspace_id": "<workspace id>",
+  "board_id": "<board id>",
+  "item_id": "<item id>",
+  "comment_text": "Plain text comment",
+  "response_format": "json"
+}
+```
+
+Do not use `infinity_update_item` to add a comment. Updating an item changes fields such as status or description and can falsely appear successful while no comment is created.
+
+After adding a comment, verify with:
+
+```txt
+infinity_list_comments
+```
+
+Report success only after the created comment appears or the add-comment tool returns a concrete created comment object.
+
+Ask for explicit confirmation before using `infinity_update_comment` or `infinity_delete_comment`.
 
 ## Efficient Tool Use
 
